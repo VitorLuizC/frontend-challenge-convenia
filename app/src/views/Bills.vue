@@ -16,26 +16,16 @@
 </template>
 
 <script>
-const bills = [
-  {
-    id: 1,
-    name: 'Mesa 1'
-  },
-  {
-    id: 2,
-    name: 'Mesa 2'
-  }
-]
+import { getOpenBills } from '@/services/Bill'
 
 export default {
   data() {
     return {
-      bills: [],
-      status: undefined
+      bills: []
     }
   },
-  mounted() {
-    this.bills = bills
+  async mounted() {
+    this.bills = await getOpenBills()
   }
 }
 </script>
