@@ -12,6 +12,12 @@ export default new Router({
       name: 'Bills',
       path: '/',
       component: Bills
+    },
+    {
+      name: 'Bill',
+      path: '/bill/:id',
+      props: true,
+      component: () => import('@/views/Bill.vue')
     }
   ]
 })

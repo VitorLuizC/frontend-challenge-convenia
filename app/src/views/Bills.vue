@@ -5,7 +5,7 @@
     <div class="list">
       <router-link
         v-for="bill in bills"
-        :to="'/table/' + bill.id"
+        :to="'/bill/' + bill.id"
         :key="bill.id"
         class="item bill-list-item"
       >
