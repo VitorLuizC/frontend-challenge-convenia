@@ -26,18 +26,12 @@ export const getOpenBills = async () => {
  */
 
 /**
- * @typedef Gratuity
- * @property {string} name
- * @property {number} percentage
- */
-
-/**
  * @typedef PaymentPerOrders
  * @property {string} id
  * @property {'PerOrders'} type
  * @property {number} value
  * @property {Order[]} orders
- * @property {Gratuity} gratuity
+ * @property {import('../Gratuity').Gratuity} gratuity
  */
 
 /**
@@ -45,7 +39,7 @@ export const getOpenBills = async () => {
  * @property {string} id
  * @property {'PerValue'} type
  * @property {number} value
- * @property {Gratuity} gratuity
+ * @property {import('../Gratuity').Gratuity} gratuity
  */
 
 /**

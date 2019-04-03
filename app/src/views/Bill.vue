@@ -12,6 +12,11 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      bill: undefined
+    }
+  },
   watch: {
     id: {
       immediate: true,
