@@ -31,19 +31,7 @@ export default {
 </script>
 
 <style lang="scss">
-@function no-unit($value) {
-  @return $value / ($value * 0 + 1);
-}
-
-@function em($size, $base-font-size: 16px) {
-  @return no-unit($size) / no-unit($base-font-size) * 1em;
-}
-
-@mixin flex-center() {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+@import '~@/assets/sass/helpers.scss';
 
 %bills-view-list {
   & > .item {
