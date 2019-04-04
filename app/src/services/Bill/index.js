@@ -70,8 +70,29 @@ export const getBillById = async () => {
         id: '1',
         name: 'Coca-Cola Lata 350ml',
         value: 5
+      },
+      {
+        id: '2',
+        name: 'Cheeseburger',
+        value: 18
+      },
+      {
+        id: '3',
+        name: 'Cerveja Original 600ml',
+        value: 14
       }
     ],
-    payments: []
+    payments: [
+      {
+        id: '1',
+        type: 'PerOrders',
+        value: 5,
+        orders: ['1'],
+        gratuity: {
+          name: 'Nenhuma',
+          percentage: 0
+        }
+      }
+    ]
   }
 }
