@@ -35,3 +35,13 @@ export const getGratuities = async () => {
     }
   ]
 }
+
+/**
+ * Transform gratuity to option object.
+ * @param {Gratuity} gratuity
+ * @returns {{ label: string, value: string }}
+ */
+export const toOption = (gratuity) => ({
+  label: gratuity.name,
+  value: gratuity.id
+})
