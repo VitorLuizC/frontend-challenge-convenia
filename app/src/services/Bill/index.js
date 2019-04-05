@@ -22,7 +22,6 @@ export const getOpenBills = async () => {
  * @property {string} id
  * @property {string} name
  * @property {number} value
- * @property {string} observation
  */
 
 /**
@@ -30,8 +29,8 @@ export const getOpenBills = async () => {
  * @property {string} id
  * @property {'PerOrders'} type
  * @property {number} value
- * @property {Order[]} orders
- * @property {import('../Gratuity').Gratuity} gratuity
+ * @property {string[]} orders
+ * @property {string} gratuity
  */
 
 /**

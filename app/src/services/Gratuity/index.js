@@ -9,7 +9,7 @@
  * Get a list of gratuities from an API.
  * @returns {Promise<Gratuity[]>}
  */
-export const getGratuityOptions = async () => {
+export const getGratuities = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
   return [
