@@ -18,6 +18,12 @@ export default new Router({
       path: '/bill/:id',
       props: true,
       component: () => import('@/views/Bill.vue')
+    },
+    {
+      name: 'Payment',
+      path: '/payment/:id',
+      props: true,
+      component: () => import('@/views/Payment.vue')
     }
   ]
 })
