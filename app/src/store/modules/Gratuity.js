@@ -1,4 +1,5 @@
 import { getGratuities, toOption } from '@/services/Gratuity'
+import { withLoad } from '@/store/modules/Loading'
 
 const KEY = 'Gratuity'
 
@@ -51,23 +52,9 @@ const Gratuity = {
   },
 
   actions: {
-    GET_GRATUITIES: async ({ commit, rootGetters, dispatch }) => {
-      // It'll be loaded just once!
-      if (!rootGetters['Loading/IS_UNSET'](KEY)) {
-        return
-      }
-
-      await dispatch(
-        'Loading/LOAD',
-        {
-          key: KEY,
-          async handler() {
-            commit('SET_GRATUITIES', await getGratuities())
-          }
-        },
-        { root: true }
-      )
-    }
+    GET_GRATUITIES: withLoad(KEY, async ({ commit }) => {
+      commit('SET_GRATUITIES', await getGratuities())
+    })
   }
 }
 

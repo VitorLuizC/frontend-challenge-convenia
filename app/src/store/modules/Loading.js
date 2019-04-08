@@ -1,8 +1,8 @@
 const state = () => ({
   /**
-   * @type {Record<string, 'LOADING'|'LOADED'>}
+   * @type {Record<string, number>}
    */
-  statuses: {}
+  states: {}
 })
 
 /**
@@ -22,19 +22,13 @@ const Loading = {
      * @param {State} state
      * @returns {(key: string) => boolean}
      */
-    IS_UNSET: (state) => (key) => !state.statuses[key],
+    IS_LOADED: (state) => (key) => state.states[key] === 0,
 
     /**
      * @param {State} state
      * @returns {(key: string) => boolean}
      */
-    IS_LOADED: (state) => (key) => state.statuses[key] === 'LOADED',
-
-    /**
-     * @param {State} state
-     * @returns {(key: string) => boolean}
-     */
-    IS_LOADING: (state) => (key) => state.statuses[key] === 'LOADING'
+    IS_LOADING: (state) => (key) => state.states[key] > 0
   },
 
   mutations: {
@@ -42,21 +36,11 @@ const Loading = {
      * @param {State} state
      * @param {string} key
      */
-    UNSET: (state, key) => {
-      state.statuses = {
-        ...state.statuses,
-        [key]: undefined
-      }
-    },
-
-    /**
-     * @param {State} state
-     * @param {string} key
-     */
     START: (state, key) => {
-      state.statuses = {
-        ...state.statuses,
-        [key]: 'LOADING'
+      const value = state.states[key]
+      state.states = {
+        ...state.states,
+        [key]: value ? value + 1 : 1
       }
     },
 
@@ -65,28 +49,41 @@ const Loading = {
      * @param {string} key
      */
     FINISH: (state, key) => {
-      state.statuses = {
-        ...state.statuses,
-        [key]: 'LOADED'
+      const value = state.states[key]
+      state.states = {
+        ...state.states,
+        [key]: value ? value - 1 : 0
       }
     }
   },
 
   actions: {
-    UNSET: ({ commit }, key) => commit('UNSET', key),
-
-    LOAD: async ({ commit }, { key, handler = () => {} }) => {
-      commit('START', key)
-      try {
-        const value = await handler()
-        commit('FINISH', key)
-        return Promise.resolve(value)
-      } catch (reason) {
-        commit('FINISH', key)
-        return Promise.reject(reason)
-      }
-    }
+    START: ({ commit }, key) => commit('START', key),
+    FINISH: ({ commit }, key) => commit('FINISH', key)
   }
 }
+
+/**
+ * Decorate an action to causes loading states changes during its execution. It
+ * set state as loading when function is init and unset on throws an error,
+ * resolves or returns.
+ * @param {string} key
+ * @param {import('vuex').ActionHandler<any, any>} action
+ * @returns {import('vuex').ActionHandler<any, any>}
+ */
+export const withLoad = (key, action) =>
+  async function(context, payload) {
+    const { dispatch } = context
+
+    dispatch('Loading/START', key, { root: true })
+    try {
+      const value = await action.call(this, context, payload)
+      dispatch('Loading/FINISH', key, { root: true })
+      return Promise.resolve(value)
+    } catch (reason) {
+      dispatch('Loading/FINISH', key, { root: true })
+      return Promise.reject(reason)
+    }
+  }
 
 export default Loading
