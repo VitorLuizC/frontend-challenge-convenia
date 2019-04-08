@@ -1,4 +1,4 @@
-import { withLoad } from '@/store/modules/Loading'
+import { withLoad, isLoading } from '@/store/modules/Loading'
 import { getBills } from '@/services/Bill'
 
 const BILL_KEY = 'Bill/BILL'
@@ -25,10 +25,8 @@ const Gratuity = {
 
   getters: {
     BILLS: (state) => state.bills,
-    LOADING_BILL: (_, __, ___, rootGetters) =>
-      rootGetters['Loading/IS_LOADING'](BILL_KEY),
-    LOADING_BILLS: (_, __, ___, rootGetters) =>
-      rootGetters['Loading/IS_LOADING'](BILLS_KEY)
+    LOADING_BILL: isLoading(BILL_KEY),
+    LOADING_BILLS: isLoading(BILLS_KEY)
   },
 
   mutations: {

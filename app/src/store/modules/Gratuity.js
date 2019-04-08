@@ -1,5 +1,5 @@
 import { getGratuities, toOption } from '@/services/Gratuity'
-import { withLoad } from '@/store/modules/Loading'
+import { withLoad, isLoading } from '@/store/modules/Loading'
 
 const KEY = 'Gratuity'
 
@@ -23,8 +23,7 @@ const Gratuity = {
   state,
 
   getters: {
-    LOADING: (_, __, ___, rootGetters) =>
-      rootGetters['Loading/IS_LOADING'](KEY),
+    LOADING: isLoading(KEY),
 
     OPTIONS: (state) => state.gratuities.map(toOption),
 

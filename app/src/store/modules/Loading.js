@@ -86,4 +86,12 @@ export const withLoad = (key, action) =>
     }
   }
 
+/**
+ * Returns a getter to check if key is loading.
+ * @param {string} key
+ * @returns {import('vuex').Getter<any, any>}
+ */
+export const isLoading = (key) => (_, __, ___, rootGetters) =>
+  rootGetters['Loading/IS_LOADING'](key)
+
 export default Loading
