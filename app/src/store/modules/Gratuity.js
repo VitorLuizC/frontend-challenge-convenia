@@ -1,11 +1,12 @@
 import { getGratuities, toOption } from '@/services/Gratuity'
 
+const KEY = 'Gratuity'
+
 const state = () => ({
   /**
    * @type {import('@/services/Gratuity').Gratuity[]}
    */
-  gratuities: [],
-  isLoaded: false
+  gratuities: []
 })
 
 /**
@@ -21,7 +22,8 @@ const Gratuity = {
   state,
 
   getters: {
-    LOADING: (state) => !state.isLoaded,
+    LOADING: (_, __, ___, rootGetters) =>
+      rootGetters['Loading/IS_LOADING'](KEY),
 
     OPTIONS: (state) => state.gratuities.map(toOption),
 
@@ -45,21 +47,26 @@ const Gratuity = {
      */
     SET_GRATUITIES: (state, gratuities) => {
       state.gratuities = gratuities
-    },
-    SET_LOADED: (state) => {
-      state.isLoaded = true
     }
   },
 
   actions: {
-    GET_GRATUITIES: async ({ commit, state }) => {
-      // It'll be loaded just one time!
-      if (state.isLoaded) {
+    GET_GRATUITIES: async ({ commit, rootGetters, dispatch }) => {
+      // It'll be loaded just once!
+      if (!rootGetters['Loading/IS_UNSET'](KEY)) {
         return
       }
 
-      commit('SET_GRATUITIES', await getGratuities())
-      commit('SET_LOADED')
+      await dispatch(
+        'Loading/LOAD',
+        {
+          key: KEY,
+          async handler() {
+            commit('SET_GRATUITIES', await getGratuities())
+          }
+        },
+        { root: true }
+      )
     }
   }
 }
