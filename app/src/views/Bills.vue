@@ -2,63 +2,26 @@
   <main class="bills-view">
     <h2 class="title">Mesas</h2>
 
-    <div class="list">
-      <router-link
-        v-for="bill in bills"
-        :to="'/bill/' + bill.id"
-        :key="bill.id"
-        class="item bill-list-item"
-      >
-        <h4 class="name">{{ bill.name }}</h4>
-      </router-link>
-    </div>
+    <bill-list class="list" />
   </main>
 </template>
 
 <script>
-import { getOpenBills } from '@/services/Bill'
+import BillList from '@/containers/Bill/BillList.vue'
 
 export default {
-  data() {
-    return {
-      bills: []
-    }
-  },
-  async mounted() {
-    this.bills = await getOpenBills()
-  }
+  components: { BillList }
 }
 </script>
 
 <style lang="scss">
 @import '~@/assets/sass/helpers.scss';
 
-%bills-view-list {
-  & > .item {
-    @include flex-center();
-    width: 100%;
-    height: 96px;
-    background-color: rgba(#000, 20%);
-
-    & > .name {
-      margin: 0;
-    }
-  }
-
-  & > .item + .item {
-    margin-top: 25px;
-  }
-}
-
 .bills-view {
   & > .title {
     text-align: center;
     font-size: em(24px);
     font-weight: 700;
-  }
-
-  & > .list {
-    @extend %bills-view-list;
   }
 }
 </style>

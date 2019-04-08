@@ -1,8 +1,12 @@
 /**
- * Get a list of open bills from an API.
- * @returns {Promise<{ id: string, name: string }[]>}
+ * @typedef {{ id: string, name: string }} BillListItem
  */
-export const getOpenBills = async () => {
+
+/**
+ * Get a list of open bills from an API.
+ * @returns {Promise<BillListItem[]>}
+ */
+export const getBills = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
   return [
