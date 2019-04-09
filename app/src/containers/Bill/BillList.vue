@@ -1,11 +1,12 @@
 <template>
   <p v-if="isLoading">Carregando contas.</p>
   <div v-else class="bill-list">
-    <bill-card
-      v-for="bill in bills"
+    <table-card
+      v-for="bill in [...bills, ...bills, ...bills]"
       :key="bill.id"
       :link="'/bill/' + bill.id"
       :name="bill.name"
+      :status="1"
       class="item"
     />
   </div>
@@ -13,10 +14,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import BillCard from '@/components/Bill/BillCard.vue'
+import TableCard from '@/components/Table/TableCard.vue'
 
 export default {
-  components: { BillCard },
+  components: { TableCard },
   computed: mapGetters('Bill', {
     bills: 'BILLS',
     isLoading: 'LOADING_BILLS'
@@ -29,8 +30,16 @@ export default {
 
 <style lang="scss">
 .bill-list {
-  & > .item + .item {
-    margin-top: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  & > .item {
+    margin: (25px / 2);
+  }
+
+  & > .item:last-child:nth-child(odd) {
+    margin-right: auto;
   }
 }
 </style>
