@@ -8,17 +8,12 @@
  */
 export const getBills = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
+  const { default: bills } = await import('@/services/Bill/data.json')
 
-  return [
-    {
-      id: '1',
-      name: 'Mesa 1'
-    },
-    {
-      id: '2',
-      name: 'Mesa 2'
-    }
-  ]
+  return bills.map((bill) => ({
+    id: bill.id,
+    name: bill.table.name
+  }))
 }
 
 /**
@@ -29,24 +24,9 @@ export const getBills = async () => {
  */
 
 /**
- * @typedef PaymentPerOrders
+ * @typedef Payment
  * @property {string} id
- * @property {'PerOrders'} type
  * @property {number} value
- * @property {string[]} orders
- * @property {string} gratuity
- */
-
-/**
- * @typedef PaymentPerValue
- * @property {string} id
- * @property {'PerValue'} type
- * @property {number} value
- * @property {string} gratuity
- */
-
-/**
- * @typedef {PaymentPerOrders|PaymentPerValue} Payment
  */
 
 /**
@@ -62,69 +42,25 @@ export const getBills = async () => {
  * @param {string} id
  * @returns {Promise<Bill>}
  */
-export const getBillById = async () => {
+export const getBillById = async (id) => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  return {
-    id: '1',
-    name: 'Mesa 1',
-    orders: [
-      {
-        id: '1',
-        name: 'Coca-Cola Lata 350ml',
-        value: 5
-      },
-      {
-        id: '2',
-        name: 'Cheeseburger',
-        value: 18
-      },
-      {
-        id: '1',
-        name: 'Coca-Cola Lata 350ml',
-        value: 5
-      }
-    ],
-    payments: [
-      {
-        id: '1',
-        type: 'PerOrders',
-        value: 5.5,
-        orders: ['1'],
-        gratuity: '1'
-      }
-    ]
-  }
+  const { default: bills } = await import('@/services/Bill/data.json')
+
+  return bills.find((bill) => bill.id === id)
 }
 
 /**
- * It resolves paid status based on paid orders in payments.
- * @param {Bill} bill
- * @returns {(Order & { isPaid: boolean })[]}
- */
-export const resolvePaidStatus = (bill) => {
-  const paidOrdersIds = bill.payments
-    .filter((payment) => payment.type === 'PerOrders')
-    .map((payment) => payment.orders || [])
-    .flat()
-
-  return bill.orders.map((order) => {
-    const index = paidOrdersIds.indexOf(order.id)
-    if (index !== -1) {
-      paidOrdersIds.splice(index, 1)
-    }
-
-    return {
-      ...order,
-      isPaid: index !== -1
-    }
-  })
-}
-
-/**
- * Sum items values.
- * @param {{ value: number }[]} items
+ * Sum orders values.
+ * @param {Order[]} orders
  * @returns {number}
  */
-export const sumItemsValues = (items) =>
-  items.reduce((sum, item) => sum + item.value, 0)
+export const sumOrders = (orders) =>
+  orders.reduce((sum, order) => sum + order.value, 0)
+
+/**
+ * Sum payments values.
+ * @param {Payment[]} payments
+ * @returns {number}
+ */
+export const sumPayments = sumOrders

@@ -5,11 +5,7 @@
     <section class="order-panel">
       <h3 class="title">Pedidos</h3>
       <ul class="list">
-        <li
-          v-for="order in orders"
-          :key="order.id"
-          :class="['item', { '-paid': order.isPaid }]"
-        >
+        <li v-for="order in bill.orders" :key="order.id" class="item">
           {{ order }}
         </li>
       </ul>
@@ -50,10 +46,9 @@ export default {
   },
   computed: mapGetters('Bill', {
     bill: 'BILL',
-    orders: 'ORDERS',
-    unpaidTotal: 'UNPAID_TOTAL',
+    total: 'TOTAL',
     paidTotal: 'PAID_TOTAL',
-    total: 'UNPAID_TOTAL'
+    unpaidTotal: 'UNPAID_TOTAL'
   }),
   watch: {
     id: {

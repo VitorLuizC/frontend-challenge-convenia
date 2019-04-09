@@ -1,10 +1,5 @@
 import { withLoad, isLoading } from '@/store/modules/Loading'
-import {
-  getBills,
-  getBillById,
-  resolvePaidStatus,
-  sumItemsValues
-} from '@/services/Bill'
+import { getBills, getBillById, sumPayments, sumOrders } from '@/services/Bill'
 
 const BILL_KEY = 'Bill/BILL'
 const BILLS_KEY = 'Bill/BILLS'
@@ -42,33 +37,27 @@ const Gratuity = {
 
     LOADING_BILLS: isLoading(BILLS_KEY),
 
-    ORDERS: (state) => {
-      if (!state.bill) {
-        return []
-      }
-      return resolvePaidStatus(state.bill)
+    PAID_TOTAL: (state) => {
+      const payments = (state.bill && state.bill.payments) || []
+      return sumPayments(payments)
     },
 
-    PAID_TOTAL: (_, getters) => {
-      const paidOrders = getters['ORDERS'].filter((order) => order.isPaid)
-      return sumItemsValues(paidOrders)
-    },
-
-    UNPAID_ORDERS: (_, getters) => {
-      return getters['ORDERS'].filter((order) => !order.isPaid)
-    },
-
-    UNPAID_TOTAL: (_, getters) => {
-      return sumItemsValues(getters['UNPAID_ORDERS'])
-    },
-
-    TOTAL: (_, getters) => {
-      return getters['PAID_TOTAL'] + getters['UNPAID_TOTAL']
+    TOTAL: (state) => {
+      const orders = (state.bill && state.bill.orders) || []
+      return sumOrders(orders)
     },
 
     TOTAL_WITH_GRATUITY: (_, getters, __, rootGetters) => (gratuityId) => {
       const gratuity = rootGetters['Gratuity/PERCENTAGE_OF'](gratuityId)
-      return getters['UNPAID_TOTAL'] + getters['UNPAID_TOTAL'] * gratuity
+      return getters['TOTAL'] + getters['TOTAL'] * gratuity
+    },
+
+    UNPAID_TOTAL: (_, getters) => {
+      return getters['TOTAL'] - getters['PAID_TOTAL']
+    },
+
+    UNPAID_TOTAL_WITH_GRATUITY: (_, getters) => (gratuityId) => {
+      return getters['TOTAL_WITH_GRATUITY'](gratuityId) - getters['PAID_TOTAL']
     }
   },
 

@@ -1,26 +1,23 @@
 <template>
   <main>
     <gratuity-options v-model="gratuity" />
+    <template v-if="!isLoading">
+      <order-checkboxes :orders="bill.orders" v-model="ordersToBePaid" />
 
-    <section class="switcher">
-      <a :class="['tab', { '-active': type === 'PerOrders' }]">
-        Pagar separadamente (por pedidos)
-      </a>
-      <a :class="['tab', { '-active': type === 'PerValue' }]">
-        Pagar conta ou divisão
-      </a>
-    </section>
+      <hr />
 
-    <order-checkboxes :orders="orders" v-model="ordersToBePaid" />
+      <input
+        type="number"
+        :value="value || sum"
+        @input="value !== sum && (value = $event.target.value)"
+      />
 
-    <hr />
-
-    <div v-if="!isLoading" class="payment">
-      <p>Total (à pagar): {{ totalFor(gratuity) }}</p>
-      <p>Total: {{ paymentTotal }}</p>
+      <p>À pagar: {{ unpaidTotalFor(gratuity) }}</p>
+      <p>Pago: {{ paidTotal }}</p>
+      <p>Total: {{ totalFor(gratuity) }}</p>
 
       <button>Fazer o pagamento</button>
-    </div>
+    </template>
   </main>
 </template>
 
@@ -28,12 +25,19 @@
 import { mapGetters } from 'vuex'
 import GratuityOptions from '@/containers/Gratuity/GratuityOptions.vue'
 import OrderCheckboxes from '@/containers/Order/OrderCheckboxes.vue'
-import { sumItemsValues } from '@/services/Bill'
+import { sumOrders } from '@/services/Bill'
 
 export default {
   components: { GratuityOptions, OrderCheckboxes },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
+      value: undefined,
       type: 'PerOrders',
       gratuity: '806c5d88-9832-44ce-978a-e239c54de3ee',
       ordersToBePaid: []
@@ -41,17 +45,19 @@ export default {
   },
   computed: {
     ...mapGetters('Bill', {
-      orders: 'UNPAID_ORDERS',
+      bill: 'BILL',
+      paidTotal: 'PAID_TOTAL',
       totalFor: 'TOTAL_WITH_GRATUITY',
+      unpaidTotalFor: 'UNPAID_TOTAL_WITH_GRATUITY',
       isLoadingBill: 'LOADING_BILL'
     }),
     ...mapGetters('Gratuity', {
       percentageOf: 'PERCENTAGE_OF',
       isLoadingGratuities: 'LOADING'
     }),
-    paymentTotal() {
-      const orders = sumItemsValues(this.ordersToBePaid)
-      return orders + orders * this.percentageOf(this.gratuity)
+    sum() {
+      const sum = sumOrders(this.ordersToBePaid)
+      return sum + sum * this.percentageOf(this.gratuity)
     },
     isLoading() {
       return this.isLoadingBill || this.isLoadingGratuities
