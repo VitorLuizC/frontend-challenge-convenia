@@ -72,9 +72,19 @@ const Gratuity = {
       return sumItemsValues(paidOrders)
     },
 
+    UNPAID_ORDERS: (_, getters) => {
+      return getters['ORDERS'].filter((order) => !order.isPaid)
+    },
+
+    UNPAID_OPTIONS: (_, getters) => {
+      return getters['UNPAID_ORDERS'].map((order) => ({
+        value: order.id,
+        label: order.name
+      }))
+    },
+
     UNPAID_TOTAL: (_, getters) => {
-      const unpaidOrders = getters['ORDERS'].filter((order) => !order.isPaid)
-      return sumItemsValues(unpaidOrders)
+      return sumItemsValues(getters['UNPAID_ORDERS'])
     },
 
     TOTAL: (_, getters) => {
