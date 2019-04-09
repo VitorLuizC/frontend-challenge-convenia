@@ -45,27 +45,14 @@ const Gratuity = {
 
     LOADING_BILLS: isLoading(BILLS_KEY),
 
-    /**
-     * Returns an array of paid orders ids.
-     */
-    PAID_ORDERS_IDS: (state) => {
+    ORDERS: (state) => {
+      const orders = (state.bill && state.bill.orders) || []
       const payments = (state.bill && state.bill.payments) || []
 
-      return payments
+      const paidOrdersIds = payments
         .filter((payment) => payment.type === 'PerOrders')
         .map((payment) => payment.orders || [])
         .flat()
-    },
-
-    PAID_TOTAL: (_, getters) => {
-      const paidOrders = getters['ORDERS'].filter((order) => order.isPaid)
-      return sumItemsValues(paidOrders)
-    },
-
-    ORDERS: (state, getters) => {
-      const orders = (state.bill && state.bill.orders) || []
-
-      const paidOrdersIds = [...getters.PAID_ORDERS_IDS]
 
       return orders.map((order) => {
         const index = paidOrdersIds.indexOf(order.id)
@@ -78,6 +65,11 @@ const Gratuity = {
           isPaid: index !== -1
         }
       })
+    },
+
+    PAID_TOTAL: (_, getters) => {
+      const paidOrders = getters['ORDERS'].filter((order) => order.isPaid)
+      return sumItemsValues(paidOrders)
     },
 
     UNPAID_TOTAL: (_, getters) => {
