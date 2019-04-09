@@ -5,7 +5,11 @@
     <section class="order-panel">
       <h3 class="title">Pedidos</h3>
       <ul class="list">
-        <li v-for="order in orders" :key="order.id" class="item">
+        <li
+          v-for="order in orders"
+          :key="order.id"
+          :class="['item', { '-paid': order.isPaid }]"
+        >
           {{ order }}
         </li>
       </ul>
@@ -24,20 +28,18 @@
 
     <hr />
 
-    Total: {{ sum }}
+    Total (à pagar): {{ unpaidTotal }}<br />
+    Total (pago): {{ paidTotal }}<br />
+    Total: {{ total }}<br />
 
     <hr />
+
+    <router-link :to="'/payment/' + id">Pagar</router-link>
   </main>
 </template>
 
 <script>
-import { getBillById } from '@/services/Bill'
-
-// TODO: Traduzir "somar valor dos pedidos" e usar como nome dessa função.
-const sum = (orders) => {
-  const sum = (sum, order) => sum + order.value
-  return orders.reduce(sum, 0)
-}
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -46,46 +48,18 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      bill: undefined
-    }
-  },
-  computed: {
-    idsOfPaidOrders() {
-      if (!this.bill) {
-        return []
-      }
-
-      return this.bill.payments
-        .filter((payment) => payment.type === 'PerOrders')
-        .map((payment) => payment.orders || [])
-        .flat()
-    },
-    orders() {
-      if (!this.bill) {
-        return []
-      }
-
-      return this.bill.orders.map((order) => ({
-        ...order,
-        isPaid: this.idsOfPaidOrders.includes(order.id)
-      }))
-    },
-    sum() {
-      if (!this.bill) {
-        return 0
-      }
-
-      return sum(this.bill.orders)
-    }
-  },
+  computed: mapGetters('Bill', {
+    bill: 'BILL',
+    orders: 'ORDERS',
+    unpaidTotal: 'UNPAID_TOTAL',
+    paidTotal: 'PAID_TOTAL',
+    total: 'UNPAID_TOTAL'
+  }),
   watch: {
     id: {
       immediate: true,
-      async handler(id) {
-        this.bill = undefined
-        this.bill = await getBillById(id)
+      handler(id) {
+        this.$store.dispatch('Bill/GET_BILL', id)
       }
     }
   }
