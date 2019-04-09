@@ -1,5 +1,10 @@
 import { withLoad, isLoading } from '@/store/modules/Loading'
-import { getBills, getBillById } from '@/services/Bill'
+import {
+  getBills,
+  getBillById,
+  resolvePaidStatus,
+  sumItemsValues
+} from '@/services/Bill'
 
 const BILL_KEY = 'Bill/BILL'
 const BILLS_KEY = 'Bill/BILLS'
@@ -21,14 +26,6 @@ const state = () => ({
  */
 
 /**
- * Sum items values.
- * @param {{ value: number }[]} items
- * @returns {number}
- */
-const sumItemsValues = (items) =>
-  items.reduce((sum, item) => sum + item.value, 0)
-
-/**
  * @type {import('vuex').Module<State, any>}
  */
 const Gratuity = {
@@ -46,25 +43,10 @@ const Gratuity = {
     LOADING_BILLS: isLoading(BILLS_KEY),
 
     ORDERS: (state) => {
-      const orders = (state.bill && state.bill.orders) || []
-      const payments = (state.bill && state.bill.payments) || []
-
-      const paidOrdersIds = payments
-        .filter((payment) => payment.type === 'PerOrders')
-        .map((payment) => payment.orders || [])
-        .flat()
-
-      return orders.map((order) => {
-        const index = paidOrdersIds.indexOf(order.id)
-        if (index !== -1) {
-          paidOrdersIds.splice(index, 1)
-        }
-
-        return {
-          ...order,
-          isPaid: index !== -1
-        }
-      })
+      if (!state.bill) {
+        return []
+      }
+      return resolvePaidStatus(state.bill)
     },
 
     PAID_TOTAL: (_, getters) => {
@@ -76,13 +58,6 @@ const Gratuity = {
       return getters['ORDERS'].filter((order) => !order.isPaid)
     },
 
-    UNPAID_OPTIONS: (_, getters) => {
-      return getters['UNPAID_ORDERS'].map((order) => ({
-        value: order.id,
-        label: order.name
-      }))
-    },
-
     UNPAID_TOTAL: (_, getters) => {
       return sumItemsValues(getters['UNPAID_ORDERS'])
     },
@@ -91,9 +66,9 @@ const Gratuity = {
       return getters['PAID_TOTAL'] + getters['UNPAID_TOTAL']
     },
 
-    TOTAL_WITH_GRATUITY: (_, getters, rootGetters) => (gratuityId) => {
+    TOTAL_WITH_GRATUITY: (_, getters, __, rootGetters) => (gratuityId) => {
       const gratuity = rootGetters['Gratuity/PERCENTAGE_OF'](gratuityId)
-      return getters['TOTAL'] + getters['UNPAID_TOTAL'] * gratuity
+      return getters['UNPAID_TOTAL'] + getters['UNPAID_TOTAL'] * gratuity
     }
   },
 

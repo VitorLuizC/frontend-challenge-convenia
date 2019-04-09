@@ -13,12 +13,14 @@
           type="checkbox"
           class="field"
           :id="id + '-option-' + index"
-          :value="option.value"
-          :checked="value.includes(option.value)"
-          @click.prevent="onClick(option.value)"
+          :value="option"
+          :checked="value.includes(option)"
+          @click.prevent="onClick(option)"
         />
 
-        <label class="label" :for="formatToId(index)">{{ option.label }}</label>
+        <label class="label" :for="formatToId(index)">
+          {{ getLabel(option) }}
+        </label>
       </fieldset>
     </div>
   </field-container>
@@ -37,6 +39,10 @@ export default {
     options: {
       type: Array,
       required: true
+    },
+    getLabel: {
+      type: Function,
+      default: (option) => option
     }
   },
   methods: {

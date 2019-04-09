@@ -80,9 +80,9 @@ export const getBillById = async () => {
         value: 18
       },
       {
-        id: '3',
-        name: 'Cerveja Original 600ml',
-        value: 14
+        id: '1',
+        name: 'Coca-Cola Lata 350ml',
+        value: 5
       }
     ],
     payments: [
@@ -96,3 +96,35 @@ export const getBillById = async () => {
     ]
   }
 }
+
+/**
+ * It resolves paid status based on paid orders in payments.
+ * @param {Bill} bill
+ * @returns {(Order & { isPaid: boolean })[]}
+ */
+export const resolvePaidStatus = (bill) => {
+  const paidOrdersIds = bill.payments
+    .filter((payment) => payment.type === 'PerOrders')
+    .map((payment) => payment.orders || [])
+    .flat()
+
+  return bill.orders.map((order) => {
+    const index = paidOrdersIds.indexOf(order.id)
+    if (index !== -1) {
+      paidOrdersIds.splice(index, 1)
+    }
+
+    return {
+      ...order,
+      isPaid: index !== -1
+    }
+  })
+}
+
+/**
+ * Sum items values.
+ * @param {{ value: number }[]} items
+ * @returns {number}
+ */
+export const sumItemsValues = (items) =>
+  items.reduce((sum, item) => sum + item.value, 0)
