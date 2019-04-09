@@ -1,0 +1,22 @@
+[
+  {
+    "id": "806c5d88-9832-44ce-978a-e239c54de3ee",
+    "name": "Gorjeta de 10%",
+    "percentage": 0.1
+  },
+  {
+    "id": "4d3ed681-56a7-4eb2-87a4-bf8a1f421936",
+    "name": "Gorjeta de 12%",
+    "percentage": 0.12
+  },
+  {
+    "id": "5ba78a0c-bdc2-4900-aef7-f604d2e72f75",
+    "name": "Gorjeta de 18%",
+    "percentage": 0.18
+  },
+  {
+    "id": "08b41974-aa6c-4c39-b3c3-2211e95264ea",
+    "name": "Nenhuma gorjeta",
+    "percentage": 0
+  }
+]

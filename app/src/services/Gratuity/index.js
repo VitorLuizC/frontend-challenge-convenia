@@ -12,28 +12,9 @@
 export const getGratuities = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  return [
-    {
-      id: '1',
-      name: 'Gorjeta de 10%',
-      percentage: 0.1
-    },
-    {
-      id: '2',
-      name: 'Gorjeta de 12%',
-      percentage: 0.12
-    },
-    {
-      id: '3',
-      name: 'Gorjeta de 18%',
-      percentage: 0.18
-    },
-    {
-      id: '4',
-      name: 'Nenhuma gorjeta',
-      percentage: 0
-    }
-  ]
+  const { default: gratuities } = await import('@/services/Gratuity/data.json')
+
+  return gratuities
 }
 
 /**

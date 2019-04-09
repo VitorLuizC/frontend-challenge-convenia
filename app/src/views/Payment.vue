@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       type: 'PerOrders',
-      gratuity: '0',
+      gratuity: '806c5d88-9832-44ce-978a-e239c54de3ee',
       ordersToBePaid: []
     }
   },
