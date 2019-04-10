@@ -50,12 +50,11 @@ export default {
 @import '~@/assets/sass/helpers.scss';
 
 .table-card {
+  @include rect(154px, 192px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 154px;
-  height: 192px;
   background-color: #f9f9f9;
   border-radius: 12px;
   box-shadow: 0 4px 11px 0 rgba(37, 44, 97, 0.15),
@@ -63,9 +62,7 @@ export default {
   cursor: pointer;
 
   & > .icon {
-    display: block;
-    width: 96px;
-    height: 96px;
+    @include rect(96px);
     margin-top: 20px;
   }
 
@@ -82,9 +79,7 @@ export default {
     &.-status-1::before,
     &.-status-2::before,
     &.-status-3::before {
-      display: block;
-      width: 6px;
-      height: 6px;
+      @include rect(6px);
       background-color: currentColor;
       border-radius: 50%;
       position: absolute;

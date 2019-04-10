@@ -1,0 +1,19 @@
+@mixin rect($width, $height: $width) {
+  display: block;
+  width: $width;
+  height: $height;
+}
+
+@mixin frame(
+  $width,
+  $height: $width,
+  $inner-width: $width,
+  $inner-height: $inner-width
+) {
+  @include rect($width, $height);
+  box-sizing: border-box;
+  padding-top: (($height - $inner-height) / 2);
+  padding-left: (($width - $inner-width) / 2);
+  padding-right: (($width - $inner-width) / 2);
+  padding-bottom: (($height - $inner-height) / 2);
+}
