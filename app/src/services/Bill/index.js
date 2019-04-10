@@ -27,6 +27,7 @@ export const getBills = async () => {
  * @typedef Payment
  * @property {string} id
  * @property {number} value
+ * @property {number} paidAt
  */
 
 /**

@@ -11,11 +11,7 @@
 
     <section class="payment-panel">
       <h3 class="title">Pagamentos</h3>
-      <ul class="list">
-        <li v-for="payment in bill.payments" :key="payment.id" class="item">
-          {{ payment }}
-        </li>
-      </ul>
+      <payment-list :payments="bill.payments" />
     </section>
 
     <hr />
@@ -33,9 +29,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import OrderList from '@/components/Order/OrderList.vue'
+import PaymentList from '@/components/Payment/PaymentList.vue'
 
 export default {
-  components: { OrderList },
+  components: { OrderList, PaymentList },
   props: {
     id: {
       type: String,

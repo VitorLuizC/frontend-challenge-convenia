@@ -7498,6 +7498,11 @@ timsort@^0.3.0:
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
+tiny-date-format@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/tiny-date-format/-/tiny-date-format-0.1.1.tgz#fc3cc3774c44b1563a6b7344aab9eecc26e063b7"
+  integrity sha1-/DzDd0xEsVY6a3NEqrnuzCbgY7c=
+
 tmp@^0.0.33:
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
