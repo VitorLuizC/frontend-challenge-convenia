@@ -9,7 +9,10 @@ body {
 // Normalize
 // ---------
 
-body {
+body,
+figure,
+ul,
+ol {
   margin: 0;
 }
 
@@ -20,6 +23,5 @@ a {
 
 ul,
 ol {
-  margin: 0;
   padding: 0;
 }

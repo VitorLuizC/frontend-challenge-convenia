@@ -2,16 +2,18 @@
   <main v-if="bill" class="bill-view">
     <h2 class="title">{{ bill.name }}</h2>
 
-    <section class="order-panel">
-      <h3 class="title">Pedidos</h3>
+    <v-details summary="Pedidos" open>
       <order-list :orders="bill.orders" />
-    </section>
+    </v-details>
+
+    <v-details summary="Pagamentos">
+      <payment-list :payments="bill.payments" />
+    </v-details>
 
     <hr />
 
     <section class="payment-panel">
-      <h3 class="title">Pagamentos</h3>
-      <payment-list :payments="bill.payments" />
+      <h3 class="title"></h3>
     </section>
 
     <hr />
@@ -28,11 +30,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import VDetails from '@/components/VDetails.vue'
 import OrderList from '@/components/Order/OrderList.vue'
 import PaymentList from '@/components/Payment/PaymentList.vue'
 
 export default {
-  components: { OrderList, PaymentList },
+  components: { OrderList, PaymentList, VDetails },
   props: {
     id: {
       type: String,
