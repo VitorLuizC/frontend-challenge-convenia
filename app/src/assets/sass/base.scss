@@ -1,0 +1,25 @@
+// Typography
+// ----------
+
+body {
+  font-family: 'Heebo', sans-serif;
+  color: #3a416f;
+}
+
+// Normalize
+// ---------
+
+body {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
