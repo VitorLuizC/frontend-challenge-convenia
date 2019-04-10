@@ -4,11 +4,7 @@
 
     <section class="order-panel">
       <h3 class="title">Pedidos</h3>
-      <ul class="list">
-        <li v-for="order in bill.orders" :key="order.id" class="item">
-          {{ order }}
-        </li>
-      </ul>
+      <order-list :orders="bill.orders" />
     </section>
 
     <hr />
@@ -36,8 +32,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import OrderList from '@/components/Order/OrderList.vue'
 
 export default {
+  components: { OrderList },
   props: {
     id: {
       type: String,
