@@ -1,5 +1,5 @@
 <template>
-  <p v-if="isLoading">Carregando contas.</p>
+  <v-bubbles v-if="isLoading" />
   <div v-else class="bill-list">
     <table-card
       v-for="bill in [...bills, ...bills, ...bills]"
@@ -15,9 +15,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import TableCard from '@/components/Table/TableCard.vue'
+import VBubbles from '@/components/VBubbles.vue'
 
 export default {
-  components: { TableCard },
+  components: { TableCard, VBubbles },
   computed: mapGetters('Bill', {
     bills: 'BILLS',
     isLoading: 'LOADING_BILLS'
