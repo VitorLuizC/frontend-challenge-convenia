@@ -50,6 +50,7 @@ export default {
     }
 
     & > .title {
+      box-sizing: border-box;
       width: 100%;
       font-size: em(24px);
       text-align: center;
@@ -57,6 +58,7 @@ export default {
 
     & > .arrow + .title {
       width: calc(100% - 30px);
+      padding-right: 30px;
     }
   }
 
