@@ -1,25 +1,42 @@
 <template>
   <v-screen title="Pagamento" :back-to="'/bill/' + id">
-    <gratuity-options v-model="gratuity" />
+    <v-details summary="Opção de gorjeta">
+      <gratuity-options v-model="gratuity" />
+    </v-details>
+
+    <v-line />
 
     <template v-if="!isLoading">
-      <order-checkboxes :orders="bill.orders" v-model="ordersToBePaid" />
+      <v-details summary="Selecionar pedidos" open>
+        <order-checkboxes :orders="bill.orders" v-model="ordersToBePaid" />
+      </v-details>
 
-      <hr />
+      <v-line />
 
-      <input
-        type="number"
+      <payment-value
         :value="value || sum"
-        @input="value !== sum && (value = $event.target.value)"
+        @input="value !== sum && (value = $event)"
+        @clear="
+          () => {
+            value = 0
+            ordersToBePaid = []
+          }
+        "
       />
 
-      <button type="button" @click="value = 0">Limpar</button>
+      <v-line />
 
-      <p>À pagar: {{ unpaidTotalFor(gratuity) }}</p>
-      <p>Pago: {{ paidTotal }}</p>
-      <p>Total: {{ totalFor(gratuity) }}</p>
+      <bill-calcs
+        v-bind="{
+          paid,
+          total: totalFor(gratuity),
+          unpaid: unpaidFor(gratuity)
+        }"
+      />
 
-      <button>Fazer o pagamento</button>
+      <v-line />
+
+      <v-button primary>Fazer o pagamento</v-button>
     </template>
   </v-screen>
 </template>
@@ -30,9 +47,23 @@ import GratuityOptions from '@/containers/Gratuity/GratuityOptions.vue'
 import OrderCheckboxes from '@/components/Order/OrderCheckboxes.vue'
 import { sumOrders } from '@/services/Bill'
 import VScreen from '@/components/VScreen.vue'
+import VDetails from '@/components/VDetails.vue'
+import VLine from '@/components/VLine.vue'
+import BillCalcs from '@/components/Bill/BillCalcs.vue'
+import VButton from '@/components/VButton.vue'
+import PaymentValue from '@/components/Payment/PaymentValue.vue'
 
 export default {
-  components: { GratuityOptions, OrderCheckboxes, VScreen },
+  components: {
+    GratuityOptions,
+    OrderCheckboxes,
+    VScreen,
+    VLine,
+    VDetails,
+    BillCalcs,
+    PaymentValue,
+    VButton
+  },
   props: {
     id: {
       type: String,
@@ -50,9 +81,9 @@ export default {
   computed: {
     ...mapGetters('Bill', {
       bill: 'BILL',
-      paidTotal: 'PAID_TOTAL',
+      paid: 'PAID_TOTAL',
       totalFor: 'TOTAL_WITH_GRATUITY',
-      unpaidTotalFor: 'UNPAID_TOTAL_WITH_GRATUITY',
+      unpaidFor: 'UNPAID_TOTAL_WITH_GRATUITY',
       isLoadingBill: 'LOADING_BILL'
     }),
     ...mapGetters('Gratuity', {

@@ -16,7 +16,7 @@
 
     <v-line />
 
-    <v-button class="button" :to="paymentLink">Pagar</v-button>
+    <v-button class="button" :to="paymentLink" primary>Pagar</v-button>
   </main>
 </template>
 

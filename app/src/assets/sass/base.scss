@@ -18,7 +18,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+fieldset {
   margin: 0;
 }
 
@@ -28,6 +29,13 @@ a {
 }
 
 ul,
-ol {
+ol,
+button,
+fieldset {
   padding: 0;
+}
+
+button,
+fieldset {
+  border: 0 none transparent;
 }
