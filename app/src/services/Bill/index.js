@@ -36,6 +36,7 @@ export const getBills = async () => {
  * @property {string} name
  * @property {Order[]} orders
  * @property {Payment[]} payments
+ * @property {import('@/services/Gratuity').Gratuity} gratuity
  */
 
 /**

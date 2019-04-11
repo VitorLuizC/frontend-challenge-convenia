@@ -1,3 +1,4 @@
+import uuid from 'uuid/v1'
 import { withLoad, isLoading } from '@/store/modules/Loading'
 import { getBills, getBillById, sumPayments, sumOrders } from '@/services/Bill'
 
@@ -43,21 +44,13 @@ const Gratuity = {
     },
 
     TOTAL: (state) => {
-      const orders = (state.bill && state.bill.orders) || []
-      return sumOrders(orders)
-    },
-
-    TOTAL_WITH_GRATUITY: (_, getters, __, rootGetters) => (gratuityId) => {
-      const gratuity = rootGetters['Gratuity/PERCENTAGE_OF'](gratuityId)
-      return getters['TOTAL'] + getters['TOTAL'] * gratuity
+      const sum = sumOrders((state.bill && state.bill.orders) || [])
+      const gratuity = (state.bill && state.bill.gratuity.percentage) || 0
+      return sum + sum * gratuity
     },
 
     UNPAID_TOTAL: (_, getters) => {
       return getters['TOTAL'] - getters['PAID_TOTAL']
-    },
-
-    UNPAID_TOTAL_WITH_GRATUITY: (_, getters) => (gratuityId) => {
-      return getters['TOTAL_WITH_GRATUITY'](gratuityId) - getters['PAID_TOTAL']
     }
   },
 
@@ -67,10 +60,42 @@ const Gratuity = {
     },
     SET_BILLS: (state, bills) => {
       state.bills = bills
+    },
+    SET_GRATUITY: (state, gratuity) => {
+      state.bill = {
+        ...state.bill,
+        gratuity
+      }
+    },
+    SET_PAYMENT: (state, payment) => {
+      state.bill = {
+        ...state.bill,
+        payments: [...state.bill.payments, payment]
+      }
     }
   },
 
   actions: {
+    SET_GRATUITY: withLoad(
+      BILL_KEY,
+      async ({ commit, rootGetters }, gratuityID) => {
+        const gratuities = rootGetters['Gratuity/GRATUITIES'] || []
+        const gratuity = gratuities.find(
+          (gratuity) => gratuity.id === gratuityID
+        )
+        if (!gratuity) {
+          throw new Error(`Can't find gratuity of ID "${gratuityID}".`)
+        }
+        commit('SET_GRATUITY', gratuity)
+      }
+    ),
+    SET_PAYMENT: withLoad(BILL_KEY, async ({ commit }, value) => {
+      commit('SET_PAYMENT', {
+        id: uuid(),
+        value,
+        paidAt: Date.now()
+      })
+    }),
     GET_BILL: withLoad(BILL_KEY, async ({ commit }, id) => {
       commit('SET_BILL', await getBillById(id))
     }),

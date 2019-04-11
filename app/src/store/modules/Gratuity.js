@@ -27,17 +27,7 @@ const Gratuity = {
 
     OPTIONS: (state) => state.gratuities.map(toOption),
 
-    /**
-     * @param {State} state
-     * @returns {(id: string) => number}
-     */
-    PERCENTAGE_OF: (state) => (id) => {
-      const gratuity = state.gratuities.find((gratuity) => gratuity.id === id)
-      if (!gratuity) {
-        throw new Error(`Can't find gratuity of ID "${id}".`)
-      }
-      return gratuity.percentage
-    }
+    GRATUITIES: (state) => state.gratuities
   },
 
   mutations: {
