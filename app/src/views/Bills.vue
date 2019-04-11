@@ -1,26 +1,11 @@
 <template>
-  <v-screen title="Mesas" content-class="bills-view">
-    <bill-list class="list" />
-  </v-screen>
+  <bill-list-view />
 </template>
 
 <script>
-import BillList from '@/containers/Bill/BillList.vue'
-import VScreen from '@/components/VScreen.vue'
+import BillListView from '@/containers/Bill/BillListView.vue'
 
 export default {
-  components: { BillList, VScreen }
+  components: { BillListView }
 }
 </script>
-
-<style lang="scss">
-@import '~@/assets/sass/helpers.scss';
-
-.bills-view {
-  & > .title {
-    text-align: center;
-    font-size: em(24px);
-    font-weight: 700;
-  }
-}
-</style>
