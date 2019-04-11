@@ -30,6 +30,7 @@
     </v-button>
   </form>
 </template>
+
 <script>
 import { sumOrders } from '@/services/Bill'
 import VDetails from '@/components/VDetails.vue'
