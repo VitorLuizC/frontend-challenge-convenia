@@ -1,11 +1,17 @@
 <template>
-  <payment-view />
+  <payment-view :id="id" />
 </template>
 
 <script>
 import PaymentView from '@/containers/Payment/PaymentView.vue'
 
 export default {
-  components: { PaymentView }
+  components: { PaymentView },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  }
 }
 </script>
