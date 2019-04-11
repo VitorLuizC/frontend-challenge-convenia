@@ -1,8 +1,6 @@
 <template>
-  <p v-if="isLoading">Carregando as opções de gorjeta.</p>
   <field-options
-    v-else
-    label="Opção de gorjeta"
+    v-if="!isLoading"
     :value="value"
     :options="options"
     is-required
@@ -11,8 +9,8 @@
 </template>
 
 <script>
-import FieldOptions from '@/components/Field/FieldOptions.vue'
 import { mapGetters } from 'vuex'
+import FieldOptions from '@/components/Field/FieldOptions.vue'
 
 export default {
   components: { FieldOptions },

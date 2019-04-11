@@ -4,7 +4,7 @@
 
     <div v-else class="bill-list">
       <table-card
-        v-for="bill in [...bills, ...bills, ...bills]"
+        v-for="bill in bills"
         :key="bill.id"
         :link="'/bill/' + bill.id"
         :name="bill.name"
