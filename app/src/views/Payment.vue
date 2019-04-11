@@ -27,7 +27,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import GratuityOptions from '@/containers/Gratuity/GratuityOptions.vue'
-import OrderCheckboxes from '@/containers/Order/OrderCheckboxes.vue'
+import OrderCheckboxes from '@/components/Order/OrderCheckboxes.vue'
 import { sumOrders } from '@/services/Bill'
 import VScreen from '@/components/VScreen.vue'
 
