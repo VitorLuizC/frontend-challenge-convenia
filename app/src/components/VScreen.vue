@@ -38,6 +38,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 18px;
     margin-bottom: 18px;
 
     @media screen and (min-width: 768px) {
