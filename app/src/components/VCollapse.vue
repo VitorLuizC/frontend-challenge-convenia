@@ -4,13 +4,14 @@
     v-bind="$attrs"
     :style="{
       overflow: 'hidden',
+      opacity: collapsed ? 0 : 1,
       maxHeight: collapsed ? '0' : maxHeight,
       willChange: 'max-height',
-      transitionProperty: 'max-height',
+      transitionProperty: 'max-height, opacity',
       transitionDuration: '0.8s',
       transitionTimingFunction: `cubic-bezier(${
         collapsed ? '0, 1, 0, 1' : '1, 0, 1, 0'
-      })`
+      }), ease-in-out`
     }"
   >
     <slot />
