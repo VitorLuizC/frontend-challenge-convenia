@@ -3,11 +3,11 @@
     v-bind="{ id, label, error, message, isRequired }"
     class="field-checkboxes"
   >
-    <div class="checkbox">
+    <div class="checkboxes">
       <fieldset
         v-for="(option, index) in options"
         :key="id + '-checkbox-' + index"
-        class="field-checkboxes-checkbox"
+        class="checkbox"
       >
         <input
           type="checkbox"
@@ -19,7 +19,9 @@
         />
 
         <label class="label" :for="formatToId(index)">
-          {{ getLabel(option) }}
+          <slot name="label" :index="index" :option="option">
+            {{ option }}
+          </slot>
         </label>
       </fieldset>
     </div>
@@ -39,10 +41,6 @@ export default {
     options: {
       type: Array,
       required: true
-    },
-    getLabel: {
-      type: Function,
-      default: (option) => option
     }
   },
   methods: {
@@ -63,3 +61,55 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import '~@/assets/sass/helpers.scss';
+
+%field-checkboxes-checkbox {
+  & > .field {
+    display: none;
+  }
+
+  & > .label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    &::before {
+      @include rect(16px);
+      min-width: 16px;
+      flex-basis: 16px;
+      box-sizing: border-box;
+      margin-right: 8px;
+      border: 2px solid #3f3f3f;
+      border-radius: 4px;
+      content: '';
+    }
+
+    &::after {
+      @include rect(8px);
+      position: absolute;
+      left: 4px;
+      border-radius: 2px;
+      background-color: #3f3f3f;
+    }
+  }
+
+  & > .field:checked + .label::after {
+    content: '';
+  }
+}
+
+.field-checkboxes {
+  & > .checkboxes {
+    & > .checkbox {
+      @extend %field-checkboxes-checkbox;
+    }
+
+    & > .checkbox + .checkbox {
+      margin-top: 18px;
+    }
+  }
+}
+</style>
