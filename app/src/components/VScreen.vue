@@ -38,8 +38,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 18px;
-    margin-bottom: 18px;
+    height: 71px;
 
     @media screen and (min-width: 768px) {
       @include block-center-vertical(flex);
@@ -64,6 +63,9 @@ export default {
   }
 
   & > .content {
+    position: relative;
+    min-height: calc(100vh - 71px);
+
     @media screen and (min-width: 768px) {
       @include block-center-vertical();
       width: 768px;
