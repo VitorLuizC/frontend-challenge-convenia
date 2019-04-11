@@ -40,7 +40,6 @@ export default {
     align-items: center;
     justify-content: space-between;
     padding: 8px 12px;
-    box-shadow: 0px 13px 7px -8px rgba(37, 44, 97, 0.15);
 
     & > .text {
       margin: 0;
