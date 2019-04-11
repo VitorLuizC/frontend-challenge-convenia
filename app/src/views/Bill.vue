@@ -6,23 +6,19 @@
       <order-list :orders="bill.orders" />
     </v-details>
 
+    <v-line />
+
     <v-details summary="Pagamentos">
       <payment-list :payments="bill.payments" />
     </v-details>
 
-    <hr />
-
-    <section class="payment-panel">
-      <h3 class="title"></h3>
-    </section>
-
-    <hr />
+    <v-line />
 
     Total (à pagar): {{ unpaidTotal }}<br />
     Total (pago): {{ paidTotal }}<br />
     Total: {{ total }}<br />
 
-    <hr />
+    <v-line />
 
     <router-link :to="'/payment/' + id">Pagar</router-link>
   </main>
@@ -30,12 +26,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import VLine from '@/components/VLine.vue'
 import VDetails from '@/components/VDetails.vue'
 import OrderList from '@/components/Order/OrderList.vue'
 import PaymentList from '@/components/Payment/PaymentList.vue'
 
 export default {
-  components: { OrderList, PaymentList, VDetails },
+  components: { OrderList, PaymentList, VLine, VDetails },
   props: {
     id: {
       type: String,
@@ -58,3 +55,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.bill-view {
+  @media screen and (min-width: 768px) {
+    width: 768px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+</style>

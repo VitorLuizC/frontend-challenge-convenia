@@ -1,10 +1,10 @@
 <template>
   <section :class="['v-details', { '-open': isOpen }]">
-    <header class="header" @click="isOpen = !isOpen">
-      <h3 class="summary">{{ summary }}</h3>
+    <header class="summary" @click="isOpen = !isOpen">
+      <h3 class="text">{{ summary }}</h3>
       <v-arrow class="arrow" :direction="isOpen ? 'up' : 'down'" />
     </header>
-    <v-collapse :collapsed="!isOpen">
+    <v-collapse class="content" :collapsed="!isOpen">
       <slot />
     </v-collapse>
   </section>
@@ -35,18 +35,27 @@ export default {
 @import '~@/assets/sass/helpers.scss';
 
 .v-details {
-  & > .header {
+  & > .summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 18px;
     padding: 8px 12px;
-    box-shadow: 0px 6px 12px -4px rgba(37, 44, 97, 0.15);
+    box-shadow: 0px 13px 7px -8px rgba(37, 44, 97, 0.15);
 
-    & > .summary {
+    & > .text {
       margin: 0;
       font-size: em(22px);
     }
+
+    & > .arrow {
+      cursor: pointer;
+    }
+  }
+
+  & > .content {
+    box-sizing: border-box;
+    margin-top: 18px;
+    padding: 0 12px;
   }
 }
 </style>
