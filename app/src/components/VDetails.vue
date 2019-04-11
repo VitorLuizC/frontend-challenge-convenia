@@ -1,5 +1,5 @@
 <template>
-  <section class="v-details">
+  <section :class="['v-details', { '-open': isOpen }]">
     <header class="header" @click="isOpen = !isOpen">
       <h3 class="summary">{{ summary }}</h3>
       <v-arrow class="arrow" :direction="isOpen ? 'up' : 'down'" />
@@ -32,11 +32,21 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~@/assets/sass/helpers.scss';
+
 .v-details {
   & > .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 18px;
+    padding: 8px 12px;
+    box-shadow: 0px 6px 12px -4px rgba(37, 44, 97, 0.15);
+
+    & > .summary {
+      margin: 0;
+      font-size: em(22px);
+    }
   }
 }
 </style>
