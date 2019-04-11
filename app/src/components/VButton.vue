@@ -4,6 +4,7 @@
     :to="to"
     :type="to ? undefined : 'button'"
     :class="['v-button', '-' + size, { '-primary': primary }]"
+    v-on="$listeners"
   >
     <span class="text">
       <slot />
