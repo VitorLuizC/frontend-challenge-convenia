@@ -1,16 +1,15 @@
 <template>
-  <main class="bills-view">
-    <h2 class="title">Mesas</h2>
-
+  <v-screen title="Mesas" content-class="bills-view">
     <bill-list class="list" />
-  </main>
+  </v-screen>
 </template>
 
 <script>
 import BillList from '@/containers/Bill/BillList.vue'
+import VScreen from '@/components/VScreen.vue'
 
 export default {
-  components: { BillList }
+  components: { BillList, VScreen }
 }
 </script>
 

@@ -1,7 +1,10 @@
 <template>
-  <main v-if="bill" class="bill-view">
-    <h2 class="title">{{ bill.name }}</h2>
-
+  <v-screen
+    v-if="bill"
+    :title="bill.table.name"
+    back-to="/"
+    content-class="bill-view"
+  >
     <v-details summary="Pedidos" open>
       <order-list :orders="bill.orders" />
     </v-details>
@@ -32,12 +35,13 @@
     <v-line />
 
     <v-button class="button" :to="'/payment/' + id">Pagar</v-button>
-  </main>
+  </v-screen>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import VLine from '@/components/VLine.vue'
+import VScreen from '@/components/VScreen.vue'
 import VButton from '@/components/VButton.vue'
 import VDetails from '@/components/VDetails.vue'
 import OrderList from '@/components/Order/OrderList.vue'
@@ -45,7 +49,14 @@ import PaymentList from '@/components/Payment/PaymentList.vue'
 import { formatToBRL } from 'brazilian-values'
 
 export default {
-  components: { OrderList, PaymentList, VLine, VButton, VDetails },
+  components: {
+    OrderList,
+    PaymentList,
+    VLine,
+    VScreen,
+    VButton,
+    VDetails
+  },
   props: {
     id: {
       type: String,
@@ -73,13 +84,9 @@ export default {
 </script>
 
 <style lang="scss">
-.bill-view {
-  @media screen and (min-width: 768px) {
-    width: 768px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+@import '~@/assets/sass/helpers.scss';
 
+.bill-view {
   .calc {
     box-sizing: border-box;
     display: block;
@@ -102,8 +109,7 @@ export default {
   }
 
   & > .button {
-    margin-left: auto;
-    margin-right: auto;
+    @include block-center-vertical(flex);
   }
 }
 </style>

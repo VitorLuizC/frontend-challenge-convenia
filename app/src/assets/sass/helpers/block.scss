@@ -1,0 +1,5 @@
+@mixin block-center-vertical($display: block) {
+  display: $display;
+  margin-left: auto;
+  margin-right: auto;
+}

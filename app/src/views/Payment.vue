@@ -1,6 +1,7 @@
 <template>
-  <main>
+  <v-screen title="Pagamento" :back-to="'/bill/' + id">
     <gratuity-options v-model="gratuity" />
+
     <template v-if="!isLoading">
       <order-checkboxes :orders="bill.orders" v-model="ordersToBePaid" />
 
@@ -12,13 +13,15 @@
         @input="value !== sum && (value = $event.target.value)"
       />
 
+      <button type="button" @click="value = 0">Limpar</button>
+
       <p>À pagar: {{ unpaidTotalFor(gratuity) }}</p>
       <p>Pago: {{ paidTotal }}</p>
       <p>Total: {{ totalFor(gratuity) }}</p>
 
       <button>Fazer o pagamento</button>
     </template>
-  </main>
+  </v-screen>
 </template>
 
 <script>
@@ -26,9 +29,10 @@ import { mapGetters } from 'vuex'
 import GratuityOptions from '@/containers/Gratuity/GratuityOptions.vue'
 import OrderCheckboxes from '@/containers/Order/OrderCheckboxes.vue'
 import { sumOrders } from '@/services/Bill'
+import VScreen from '@/components/VScreen.vue'
 
 export default {
-  components: { GratuityOptions, OrderCheckboxes },
+  components: { GratuityOptions, OrderCheckboxes, VScreen },
   props: {
     id: {
       type: String,
